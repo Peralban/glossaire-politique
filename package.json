@@ -1,6 +1,6 @@
 {
   "name": "glossaire-politique",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Glossaire partagé des termes de la vie politique et parlementaire française, avec ses fonctions de recherche.",
   "license": "CC-BY-4.0",
