@@ -25,13 +25,54 @@ Une définition ici est **spécialisée** : « Assemblée » veut dire l'Assembl
 
 Les notes propres à un site (« sur ce site… », exemples chiffrés) n'ont pas leur place ici : chaque site les garde de son côté, indexées par `id`.
 
+## Utiliser la librairie
+
+Le dépôt est aussi un paquet TypeScript sans dépendance (`src/index.ts`), importable depuis Bun, Node (via un bundler) ou Next.js. Il lit `glossaire.json` tel quel : mettre à jour le glossaire, c'est mettre à jour la dépendance.
+
+Installation, au choix :
+
+```jsonc
+// package.json du site
+"dependencies": {
+  "glossaire-politique": "file:../glossaire-politique",                          // checkout voisin
+  "glossaire-politique": "github:Peralban/glossaire-politique#v0.1.0"            // ou un tag du dépôt
+}
+```
+
+Avec Next.js, ajouter `transpilePackages: ["glossaire-politique"]` (le paquet est livré en TypeScript) et, pour un lien local hors du projet, un `turbopack.root` qui couvre les deux dossiers.
+
+```ts
+import { avecNotes, categories, mots, parId, trouver, normaliser, type Mot } from "glossaire-politique";
+
+trouver("amendements");   // → l'entrée « Amendement » (pluriel, casse et accents ignorés)
+trouver("TVA");           // → « TVA (taxe sur la valeur ajoutée) », par son sigle
+trouver("49.3");          // → « Article 49.3 » (id 49-3)
+trouver("taxe");          // → undefined : correspondance exacte seulement
+parId("cmp");             // → « Commission mixte paritaire (CMP) »
+
+// Les notes propres à un site, superposées par id. Un id inconnu est signalé (console.warn par défaut).
+const g = avecNotes<{ site?: string; ex?: string }>({ amendement: { site: "Voter contre un amendement n'est pas voter contre la loi." } });
+g.trouver("amendement")?.site;
+```
+
+| export | rôle |
+|---|---|
+| `Mot`, `Source`, `Statut`, `Glossaire`, `Vue` | types |
+| `glossaire`, `version`, `categories`, `mots` | les données |
+| `parId(id, liste?)` | une entrée par identifiant |
+| `trouver(mot, liste?)` | correspondance exacte : id, nom, nom sans parenthèse, contenu de la parenthèse (sigle), pluriel en « s », « 49.3 » = « 49-3 » |
+| `cles(mot)` | les formes normalisées auxquelles une entrée répond |
+| `normaliser(texte)`, `nettoyer(mot)` | minuscules sans accents ; guillemets et ponctuation autour d'un mot sélectionné retirés |
+| `avecNotes(notes, avertir?)` | `{ categories, mots, parId, trouver }` sur les entrées enrichies des notes du site |
+
 ## Vérifier
 
 ```
-bun scripts/validate.ts
+bun scripts/validate.ts   # le contenu
+bun test                  # la librairie
 ```
 
-Contrôle les identifiants uniques, les catégories, les renvois `voir`, et que tout statut autre que `à sourcer` s'appuie sur une source officielle.
+`validate.ts` contrôle les identifiants uniques, les catégories, les renvois `voir`, et que tout statut autre que `à sourcer` s'appuie sur une source officielle.
 
 ## Licence
 
