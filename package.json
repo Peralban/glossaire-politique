@@ -1,5 +1,18 @@
 {
   "name": "glossaire-politique",
+  "version": "0.1.0",
   "private": true,
-  "scripts": { "validate": "bun scripts/validate.ts" }
+  "description": "Glossaire partagé des termes de la vie politique et parlementaire française, avec ses fonctions de recherche.",
+  "license": "CC-BY-4.0",
+  "type": "module",
+  "exports": {
+    ".": { "types": "./src/index.ts", "default": "./src/index.ts" },
+    "./glossaire.json": "./glossaire.json"
+  },
+  "types": "./src/index.ts",
+  "files": ["src", "glossaire.json", "glossaire.schema.json", "LICENSE", "README.md"],
+  "scripts": {
+    "validate": "bun scripts/validate.ts",
+    "test": "bun test"
+  }
 }
