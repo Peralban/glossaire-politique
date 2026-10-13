@@ -1,0 +1,5 @@
+{
+  "name": "glossaire-politique",
+  "private": true,
+  "scripts": { "validate": "bun scripts/validate.ts" }
+}

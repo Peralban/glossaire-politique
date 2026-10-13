@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Glossaire politique",
+  "type": "object",
+  "required": ["version", "categories", "mots"],
+  "properties": {
+    "version": { "const": 1 },
+    "categories": { "type": "array", "items": { "type": "string" }, "uniqueItems": true },
+    "mots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "mot", "cat", "def", "sources", "statut"],
+        "additionalProperties": false,
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+          "mot": { "type": "string", "description": "Le terme, avec son sigle entre parenthèses s'il en a un." },
+          "cat": { "type": "string" },
+          "def": { "type": "string", "description": "Définition courte, reformulée (jamais recopiée d'un dictionnaire protégé)." },
+          "contexte": { "type": "string", "description": "Le sens précis dans le contexte français (ex. « Ici : l'Assemblée nationale »)." },
+          "voir": { "type": "array", "items": { "type": "string" } },
+          "sources": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["nom", "url", "type", "consulte"],
+              "additionalProperties": false,
+              "properties": {
+                "nom": { "type": "string" },
+                "url": { "type": "string", "pattern": "^https://" },
+                "type": { "enum": ["officiel", "dictionnaire"] },
+                "consulte": { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$" }
+              }
+            }
+          },
+          "statut": { "enum": ["à sourcer", "sourcé", "relu"] }
+        }
+      }
+    }
+  }
+}
