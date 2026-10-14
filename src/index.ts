@@ -29,8 +29,8 @@ export const version = glossaire.version;
 export const categories: string[] = glossaire.categories;
 export const mots: Mot[] = glossaire.mots;
 
-/** Lowercase, accents removed: "Hémicycle" -> "hemicycle". */
-export const normaliser = (texte: string) => texte.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+/** Lowercase, accents removed, typographic apostrophe made straight: "Règle d’or" -> "regle d'or". */
+export const normaliser = (texte: string) => texte.normalize("NFD").replace(/\p{M}/gu, "").replace(/’/g, "'").toLowerCase();
 
 // Every form an entry answers to, normalised and without a trailing "s": its id, its name, its name without
 // the parenthesis, and what is inside the parenthesis ("TVA (taxe sur la valeur ajoutée)" -> "tva", "taxe sur la valeur ajoutee").
@@ -80,4 +80,24 @@ export function avecNotes<N extends object>(
   const liste = base.map((m) => ({ ...m, ...notes[m.id] }) as Mot & Partial<N>);
   const index = new Map(liste.map((m) => [m.id, m]));
   return { categories, mots: liste, parId: (id) => index.get(id), trouver: (mot) => trouver(mot, liste) };
+}
+
+/** Where problems with the glossary are reported (GitHub issue form .github/ISSUE_TEMPLATE/signalement.yml). */
+export const DEPOT = "https://github.com/Peralban/glossaire-politique";
+
+/**
+ * Link to report a problem on an entry, as a pre-filled GitHub issue: `signaler(parId("tva-sociale")!)`.
+ * Given a plain word instead of an entry, the report is a missing word: `signaler("superprofits")`.
+ * A site can put it behind a "Signaler" button under each definition.
+ */
+export function signaler(mot: Pick<Mot, "id" | "mot"> | string, explication?: string): string {
+  const manquant = typeof mot === "string";
+  const params = new URLSearchParams({
+    template: "signalement.yml",
+    title: `[signalement] ${manquant ? mot : mot.mot}`,
+    mot: manquant ? mot : `${mot.mot} (${mot.id})`,
+  });
+  if (manquant) params.set("probleme", "Mot manquant");
+  if (explication) params.set("explication", explication);
+  return `${DEPOT}/issues/new?${params}`;
 }
