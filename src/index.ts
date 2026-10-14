@@ -29,8 +29,8 @@ export const version = glossaire.version;
 export const categories: string[] = glossaire.categories;
 export const mots: Mot[] = glossaire.mots;
 
-/** Lowercase, accents removed: "Hémicycle" -> "hemicycle". */
-export const normaliser = (texte: string) => texte.normalize("NFD").replace(/\p{M}/gu, "").toLowerCase();
+/** Lowercase, accents removed, typographic apostrophe made straight: "Règle d’or" -> "regle d'or". */
+export const normaliser = (texte: string) => texte.normalize("NFD").replace(/\p{M}/gu, "").replace(/’/g, "'").toLowerCase();
 
 // Every form an entry answers to, normalised and without a trailing "s": its id, its name, its name without
 // the parenthesis, and what is inside the parenthesis ("TVA (taxe sur la valeur ajoutée)" -> "tva", "taxe sur la valeur ajoutee").

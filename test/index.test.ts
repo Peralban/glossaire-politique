@@ -15,6 +15,7 @@ const LISTE = [
 
 describe("normaliser", () => {
   test("lowercase, no accents", () => expect(normaliser("Hémicycle ÉLU")).toBe("hemicycle elu"));
+  test("typographic apostrophe", () => expect(normaliser("Règle d’or")).toBe("regle d'or"));
 });
 
 describe("nettoyer", () => {

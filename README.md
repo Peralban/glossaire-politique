@@ -1,6 +1,6 @@
 # Glossaire politique
 
-Glossaire partagé des termes de la vie politique et parlementaire française, pensé comme une base commune pour plusieurs sites (le premier : [scrutins](https://github.com/Peralban/scrutins)).
+Glossaire partagé des termes de la vie politique et parlementaire française (procédure parlementaire, mais aussi fiscalité, économie, protection sociale, élections, collectivités, Europe, droits et libertés : les mots qu'emploient les responsables politiques), pensé comme une base commune pour plusieurs sites (le premier : [scrutins](https://github.com/Peralban/scrutins)).
 
 Une définition ici est **spécialisée** : « Assemblée » veut dire l'Assemblée nationale, « scrutin » un vote enregistré, et pas le sens d'un dictionnaire général.
 
@@ -64,6 +64,12 @@ g.trouver("amendement")?.site;
 | `cles(mot)` | les formes normalisées auxquelles une entrée répond |
 | `normaliser(texte)`, `nettoyer(mot)` | minuscules sans accents ; guillemets et ponctuation autour d'un mot sélectionné retirés |
 | `avecNotes(notes, avertir?)` | `{ categories, mots, parId, trouver }` sur les entrées enrichies des notes du site |
+
+## Signaler un problème
+
+Une définition fausse, incomplète, pas neutre, une source cassée ou un mot qui manque : ouvrir une issue avec le formulaire [« Signaler un problème sur une définition »](https://github.com/Peralban/glossaire-politique/issues/new?template=signalement.yml). Les signalements portent le label `signalement`.
+
+Les sites qui utilisent le glossaire peuvent aussi créer ces issues eux-mêmes, depuis un formulaire sur leurs pages, avec le même label : c'est le cas de scrutins, où le lecteur n'a pas besoin de compte GitHub.
 
 ## Vérifier
 

@@ -1,0 +1,42 @@
+name: Signaler un problème sur une définition
+description: Définition inexacte, incomplète ou pas neutre, source cassée, mot manquant…
+title: "[signalement] "
+labels: ["signalement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Merci de signaler ce qui ne va pas. Une correction s'appuie sur une source officielle (assemblee-nationale.fr, senat.fr, vie-publique.fr, legifrance.gouv.fr, service-public.fr, insee.fr…) : si vous en avez une, indiquez-la.
+  - type: input
+    id: mot
+    attributes:
+      label: Mot concerné
+      description: Le mot tel qu'il apparaît, ou son identifiant (ex. « tva-sociale »). Pour un mot manquant, le mot à ajouter.
+    validations:
+      required: true
+  - type: dropdown
+    id: probleme
+    attributes:
+      label: Type de problème
+      options:
+        - Définition inexacte ou dépassée
+        - Définition incomplète ou peu claire
+        - Définition pas neutre
+        - Source manquante, cassée ou qui ne dit pas ça
+        - Mot manquant
+        - Autre
+    validations:
+      required: true
+  - type: textarea
+    id: explication
+    attributes:
+      label: Ce qui ne va pas
+      description: Qu'est-ce qui est faux ou manque ? Qu'est-ce qu'il faudrait écrire à la place ?
+    validations:
+      required: true
+  - type: input
+    id: source
+    attributes:
+      label: Source proposée (facultatif)
+      description: Lien vers une page officielle qui appuie la correction.
+      placeholder: https://
