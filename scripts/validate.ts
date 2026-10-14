@@ -1,6 +1,6 @@
 // Checks glossaire.json: bun scripts/validate.ts
 // Rule: an entry marked "sourcé" or "relu" has at least one official source; ids are unique and every "voir" resolves.
-const OFFICIEL = /(^|\.)(gouv\.fr|assemblee-nationale\.fr|senat\.fr|conseil-constitutionnel\.fr|conseil-etat\.fr|courdescomptes\.fr|ccomptes\.fr|europa\.eu|elysee\.fr|vie-publique\.fr|legifrance\.gouv\.fr|service-public\.fr)$/;
+const OFFICIEL = /(^|\.)(gouv\.fr|insee\.fr|assemblee-nationale\.fr|senat\.fr|conseil-constitutionnel\.fr|conseil-etat\.fr|courdescomptes\.fr|ccomptes\.fr|europa\.eu|elysee\.fr|vie-publique\.fr|legifrance\.gouv\.fr|service-public\.fr)$/;
 const g = await Bun.file(new URL("../glossaire.json", import.meta.url)).json();
 const errors: string[] = [];
 const ids = new Set<string>();
