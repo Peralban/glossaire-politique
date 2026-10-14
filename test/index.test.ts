@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { avecNotes, categories, cles, DEPOT, mots, nettoyer, normaliser, parId, signaler, trouver, type Mot } from "../src/index";
+import { avecNotes, categories, cles, mots, nettoyer, normaliser, parId, trouver, type Mot } from "../src/index";
 
 // Fixed entries, so the tests do not depend on what glossaire.json holds today.
 const m = (id: string, mot: string): Mot => ({ id, mot, cat: "Test", def: `déf ${id}`, sources: [], statut: "à sourcer" });
@@ -82,22 +82,6 @@ describe("avecNotes", () => {
     console.warn = (...a: unknown[]) => vus.push(a.join(" "));
     try { avecNotes({ inexistant: { site: "b" } }, undefined, LISTE); } finally { console.warn = warn; }
     expect(String(vus[0])).toContain("inexistant");
-  });
-});
-
-describe("signaler", () => {
-  test("pre-filled issue on an entry", () => {
-    const u = new URL(signaler(m("tva", "TVA (taxe sur la valeur ajoutée)"), "Le taux est faux."));
-    expect(`${u.origin}${u.pathname}`).toBe(`${DEPOT}/issues/new`);
-    expect(u.searchParams.get("template")).toBe("signalement.yml");
-    expect(u.searchParams.get("mot")).toBe("TVA (taxe sur la valeur ajoutée) (tva)");
-    expect(u.searchParams.get("explication")).toBe("Le taux est faux.");
-    expect(u.searchParams.get("probleme")).toBeNull();
-  });
-  test("a plain word is a missing word", () => {
-    const u = new URL(signaler("superprofits"));
-    expect(u.searchParams.get("mot")).toBe("superprofits");
-    expect(u.searchParams.get("probleme")).toBe("Mot manquant");
   });
 });
 

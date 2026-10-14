@@ -42,7 +42,7 @@ Installation, au choix :
 Avec Next.js, ajouter `transpilePackages: ["glossaire-politique"]` (le paquet est livré en TypeScript) et, pour un lien local hors du projet, un `turbopack.root` qui couvre les deux dossiers.
 
 ```ts
-import { avecNotes, categories, mots, parId, signaler, trouver, normaliser, type Mot } from "glossaire-politique";
+import { avecNotes, categories, mots, parId, trouver, normaliser, type Mot } from "glossaire-politique";
 
 trouver("amendements");   // → l'entrée « Amendement » (pluriel, casse et accents ignorés)
 trouver("TVA");           // → « TVA (taxe sur la valeur ajoutée) », par son sigle
@@ -53,9 +53,6 @@ parId("cmp");             // → « Commission mixte paritaire (CMP) »
 // Les notes propres à un site, superposées par id. Un id inconnu est signalé (console.warn par défaut).
 const g = avecNotes<{ site?: string; ex?: string }>({ amendement: { site: "Voter contre un amendement n'est pas voter contre la loi." } });
 g.trouver("amendement")?.site;
-
-signaler(parId("tva-sociale")!);   // → lien vers un signalement GitHub pré-rempli pour cette entrée
-signaler("superprofits");          // → signalement d'un mot manquant
 ```
 
 | export | rôle |
@@ -67,13 +64,12 @@ signaler("superprofits");          // → signalement d'un mot manquant
 | `cles(mot)` | les formes normalisées auxquelles une entrée répond |
 | `normaliser(texte)`, `nettoyer(mot)` | minuscules sans accents ; guillemets et ponctuation autour d'un mot sélectionné retirés |
 | `avecNotes(notes, avertir?)` | `{ categories, mots, parId, trouver }` sur les entrées enrichies des notes du site |
-| `signaler(mot, explication?)`, `DEPOT` | lien vers un signalement pré-rempli (issue GitHub) pour une entrée, ou pour un mot manquant si on passe une chaîne |
 
 ## Signaler un problème
 
 Une définition fausse, incomplète, pas neutre, une source cassée ou un mot qui manque : ouvrir une issue avec le formulaire [« Signaler un problème sur une définition »](https://github.com/Peralban/glossaire-politique/issues/new?template=signalement.yml). Les signalements portent le label `signalement`.
 
-Un site qui utilise la librairie peut afficher un bouton « Signaler » sous chaque définition, avec `signaler(mot)` comme lien : le formulaire s'ouvre avec le mot déjà rempli.
+Les sites qui utilisent le glossaire peuvent aussi créer ces issues eux-mêmes, depuis un formulaire sur leurs pages, avec le même label : c'est le cas de scrutins, où le lecteur n'a pas besoin de compte GitHub.
 
 ## Vérifier
 
